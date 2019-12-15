@@ -1,0 +1,7 @@
+- name: install wordpress
+  hosts: web
+  remote_user: boubooo
+  become: true
+
+  roles:
+    - wordpress

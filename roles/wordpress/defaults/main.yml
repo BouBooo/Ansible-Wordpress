@@ -1,0 +1,4 @@
+mysql_db: wordpress
+mysql_user: toor
+mysql_password: toor
+mysql_host: 51.137.59.225

@@ -1,0 +1,46 @@
+- name: Upgrade & Update server
+  apt:
+   upgrade: yes
+   update_cache: yes
+
+- name: Install MySQL Server
+  apt: 
+    name: mysql-server
+  
+- name: Install Python utils
+  apt:
+    name={{ item }}
+  with_items:
+    - python-apt
+    - python-mysqldb
+    - python-pip
+    - python-setuptools
+  
+- name: MySQL client
+  pip: name={{ item }}
+  with_items:
+    - setuptools
+    - pymysql
+ 
+- name: New MySQL user
+  mysql_user:
+    login_unix_socket={{ mysql_socket }}
+    name={{ mysql_user }}
+    password={{ mysql_password }}
+    priv='*.*:ALL'
+    host="%"
+    state=present
+  notify:
+    - restart mysql
+
+- name: New database
+  mysql_db:
+    login_unix_socket={{ mysql_socket }}
+    name={{ mysql_db }}
+
+- name: Allow remote connections 
+  replace:
+    path: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: "^(bind-address*)"
+    replace: '# \1'
+  

@@ -1,0 +1,8 @@
+- name: install apache/php/ftp & start
+  hosts: web
+  remote_user: boubooo
+  become: true
+
+  roles:
+    - web-php-ftp
+
